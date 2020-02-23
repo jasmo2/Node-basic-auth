@@ -18,7 +18,7 @@ deben estar encriptadas. Para esto usaremos _bcrypt_ y una de sus funciones que
 nos ayudará **"hashear"** las contraseñas de texto plano.
 
 ```
-var bcrypt = require('bcrypt');
+var bcrypt = require('bcrypt')
 bcrypt.hash("constrasena-correcta", 10)
 .then((hash) => {
   // ohhh si Callback!
@@ -34,12 +34,12 @@ la contraseña en un `login` es correcta. Afortunadamente, **bycrypt** cuenta co
 bcrypt.compare("constrasena-correcta", hash)
 .then(function(res) {
   // res == true
-});
+})
 
 bcrypt.compare("contrasena-incorecta", hash)
 .then(function(res) {
   // res == false
-});
+})
 ```
 
 #### Ejercicio: [1-encrypting.js](./Exercises/1-encrypting.js)
@@ -57,23 +57,27 @@ Un manera sería por medio de uso de cookies como vimos en el modulo de _Middlew
 
 También para la explicación supondré que se está usando MongoDB(Mongoose). Por lo tanto nuestra ruta de login será de la siguiente manera.
 
+### Ruta HTTP
+
 ```
 app.post("/login", (req, res) => {
-  const { email, password } = req.body;
+  const { email, password } = req.body
 
   try {
-    const user = await User.authenticate(email, password);
+    const user = await User.authenticate(email, password)
     if (user) {
-      req.session.userId = user._id; // <== acá guardamos el id en la sesión
-      return res.redirect("/");
+      req.session.userId = user._id // <== acá guardamos el id en la sesión
+      return res.redirect("/")
     } else {
-      res.render("/login", { error: "Wrong email or password. Try again!" });
+      res.render("/login", { error: "Wrong email or password. Try again!" })
     }
   } catch (e) {
-    return next(e);
+    return next(e)
   }
-});
+})
 ```
+
+### Verificación de Seguridad
 
 Como sabemos por Mongoose podemos crear _**Metodos estaticos**_ en este caso en el
 modelo User.
@@ -81,17 +85,54 @@ modelo User.
 Sobre este metodo lo que haremos es usar la librería bycrypt para verificar si este **hash** está previamente guardado en nuestra base de datos.
 
 ```
-const UserSchema = new mongoose.Schema({ // ... });
+const UserSchema = new mongoose.Schema({ // ... })
 
 UserSchema.statics.authenticate = async (email, password) => {
   // buscamos el usuario utilizando el email
-  const user = await mongoose.model("User").findOne({ email: email });
+  const user = await mongoose.model("User").findOne({ email: email })
 
   if (user) {
     // si existe comparamos la contraseña
     return functionPromiseBycrypt(password, user.password) //Implementada en el ejercicio anterior
   }
 
-  return null;
-};
+  return null
+}
 ```
+
+### Middleware de Seguridad
+
+Super importante Middleware! .Esto nos va a dar la posibilidad de preguntar todas
+las veces que se haga un llamado HTTP para saber si el usuario tiene permisos de acceder
+a esta ruta o sinó lo redirijimos a una ruta "segura".
+
+```
+async function requireUser(req, res, next) {
+  const userId = req.session.userId // la sesión que ya tenemos guardada
+  if (userId) {
+    const user = await User.findOne({ _id: userId })
+    res.locals.user = user
+    next()
+  } else {
+    return res.redirect("/login")
+  }
+}
+```
+
+#### Aplicar Middleware:
+
+Ya definido el Middleware lo podemos usar encualquiera de nuestras rutas.
+
+```
+app.get("/ruta-segura", requireUser, (req, res) => {
+  res.render("index-seguro");
+});
+```
+
+---
+
+---
+
+---
+
+Hagamos un projecto con este Middleware!!!
