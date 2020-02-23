@@ -1,0 +1,52 @@
+Arguments: 
+  /Users/jaimemolina/.nvm/versions/node/v12.15.0/bin/node /Users/jaimemolina/.nvm/versions/node/v12.15.0/bin/yarn add bycrypt
+
+PATH: 
+  /Users/jaimemolina/.rvm/gems/ruby-2.6.3/bin:/Users/jaimemolina/.rvm/gems/ruby-2.6.3@global/bin:/Users/jaimemolina/.rvm/rubies/ruby-2.6.3/bin:/anaconda3/bin:/anaconda3/bin:/Users/jaimemolina/.nvm/versions/node/v12.15.0/bin:/Users/jaimemolina/.fastlane/bin:/Users/jaimemolina/Library/Android/sdk/emulator:/Users/jaimemolina/Library/Android/sdk/tools:/Users/jaimemolina/.fastlane/bin/fastlane_lib:/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin:/opt/ImageMagick/bin:/Users/jaimemolina/.rvm/bin
+
+Yarn version: 
+  1.22.0
+
+Node version: 
+  12.15.0
+
+Platform: 
+  darwin x64
+
+Trace: 
+  Error: https://registry.yarnpkg.com/bycrypt: Not found
+      at Request.params.callback [as _callback] (/Users/jaimemolina/.nvm/versions/node/v12.15.0/lib/node_modules/yarn/lib/cli.js:66975:18)
+      at Request.self.callback (/Users/jaimemolina/.nvm/versions/node/v12.15.0/lib/node_modules/yarn/lib/cli.js:140727:22)
+      at Request.emit (events.js:223:5)
+      at Request.<anonymous> (/Users/jaimemolina/.nvm/versions/node/v12.15.0/lib/node_modules/yarn/lib/cli.js:141699:10)
+      at Request.emit (events.js:223:5)
+      at IncomingMessage.<anonymous> (/Users/jaimemolina/.nvm/versions/node/v12.15.0/lib/node_modules/yarn/lib/cli.js:141621:12)
+      at Object.onceWrapper (events.js:312:28)
+      at IncomingMessage.emit (events.js:228:7)
+      at endReadableNT (_stream_readable.js:1185:12)
+      at processTicksAndRejections (internal/process/task_queues.js:81:21)
+
+npm manifest: 
+  {
+    "name": "auth-node",
+    "version": "1.0.0",
+    "description": "node basic authentication",
+    "main": "index.js",
+    "scripts": {
+      "test": "echo \"Error: no test specified\" && exit 1"
+    },
+    "author": "jasmo2",
+    "license": "ISC",
+    "dependencies": {
+      "axios": "^0.19.2",
+      "express": "^4.17.1",
+      "mongoose": "^5.9.1",
+      "nodemon": "^2.0.2"
+    }
+  }
+
+yarn manifest: 
+  No manifest
+
+Lockfile: 
+  No lockfile
